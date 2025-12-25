@@ -26,6 +26,15 @@ try {
 }
 ?>
 <body>
-    
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <span class="navbar-brand">TodoList</span>
+  </div>
+</nav>
+
+<div class="container mt-4">
+
 </body>
 </html>
