@@ -44,5 +44,31 @@ try {
     <button class="btn btn-primary">Add</button>
 </form>
 
+
+<!-- LIST -->
+<ul class="list-group">
+
+<li class="list-group-item d-flex justify-content-between align-items-center
+    <?= $t->done ? 'list-group-item-success' : 'list-group-item-warning' ?>">
+
+    <?= htmlspecialchars($t->title) ?>
+
+    <form method="post" class="d-flex gap-2">
+        <input type="hidden" name="id" value="<?= $t->id ?>">
+
+        <button name="action" value="toggle" class="btn btn-sm btn-primary">
+            <?= $t->done ? 'Undo' : 'Done' ?>
+        </button>
+
+        <button name="action" value="delete" class="btn btn-sm btn-danger">
+            X
+        </button>
+    </form>
+</li>
+
+
+</ul>
+
+</div>
 </body>
 </html>
