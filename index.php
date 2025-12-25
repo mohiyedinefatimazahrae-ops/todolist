@@ -36,5 +36,13 @@ try {
 
 <div class="container mt-4">
 
+
+<!-- FORM ADD -->
+<form method="post" class="d-flex mb-4">
+    <input type="hidden" name="action" value="new">
+    <input type="text" name="title" class="form-control me-2" placeholder="Task Title">
+    <button class="btn btn-primary">Add</button>
+</form>
+
 </body>
 </html>
