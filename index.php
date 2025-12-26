@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Document</title>
 </head>
 
@@ -24,6 +25,41 @@ try {
 } catch (PDOException $e) {
     die("Erreur connexion DB");
 }
+// B. Traitement BACK-END (actions POST)
+// ACTIONS
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Ajouter une tâche
+    if ($_POST['action'] === 'new') {
+        $title = trim($_POST['title']);
+        if (!empty($title)) {
+            $stmt = $pdo->prepare("INSERT INTO todo(title) VALUES (?)");
+            $stmt->execute([$title]);
+        }
+    }
+
+    // Supprimer
+    if ($_POST['action'] === 'delete') {
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM todo WHERE id=?");
+        $stmt->execute([$id]);
+    }
+
+    // Toggle done / undone
+    if ($_POST['action'] === 'toggle') {
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare(
+            "UPDATE todo SET done = 1 - done WHERE id=?"
+        );
+        $stmt->execute([$id]);
+    }
+
+    header("Location: index.php");
+    exit;
+}
+// C. Lecture des tâches (variable $taches)
+$stmt = $pdo->query("SELECT * FROM todo ORDER BY created_at DESC");
+$taches = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
 <body>
 
@@ -47,7 +83,7 @@ try {
 
 <!-- LIST -->
 <ul class="list-group">
-
+<?php foreach ($taches as $t): ?>
 <li class="list-group-item d-flex justify-content-between align-items-center
     <?= $t->done ? 'list-group-item-success' : 'list-group-item-warning' ?>">
 
@@ -65,8 +101,7 @@ try {
         </button>
     </form>
 </li>
-
-
+<?php endforeach; ?>
 </ul>
 
 </div>
