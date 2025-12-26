@@ -43,6 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("DELETE FROM todo WHERE id=?");
         $stmt->execute([$id]);
     }
+
+    // Toggle done / undone
+    if ($_POST['action'] === 'toggle') {
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare(
+            "UPDATE todo SET done = 1 - done WHERE id=?"
+        );
+        $stmt->execute([$id]);
+    }
 }
 ?>
 <body>
