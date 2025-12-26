@@ -36,6 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$title]);
         }
     }
+
+    // Supprimer
+    if ($_POST['action'] === 'delete') {
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM todo WHERE id=?");
+        $stmt->execute([$id]);
+    }
 }
 ?>
 <body>
