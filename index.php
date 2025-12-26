@@ -52,7 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
         $stmt->execute([$id]);
     }
+
+    header("Location: index.php");
+    exit;
 }
+// C. Lecture des tâches (variable $taches)
+$stmt = $pdo->query("SELECT * FROM todo ORDER BY created_at DESC");
+$taches = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
 <body>
 
