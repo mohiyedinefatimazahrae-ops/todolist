@@ -26,6 +26,5 @@ try {
 }
 ?>
 <body>
-    
 </body>
 </html>
