@@ -24,7 +24,63 @@ try {
 } catch (PDOException $e) {
     die("Erreur connexion DB");
 }
+// B. Traitement BACK-END (actions POST)
+// ACTIONS
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Ajouter une tâche
+    if ($_POST['action'] === 'new') {
+        $title = trim($_POST['title']);
+        if (!empty($title)) {
+            $stmt = $pdo->prepare("INSERT INTO todo(title) VALUES (?)");
+            $stmt->execute([$title]);
+        }
+    }
+}
 ?>
 <body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <span class="navbar-brand">TodoList</span>
+  </div>
+</nav>
+
+<div class="container mt-4">
+
+
+<!-- FORM ADD -->
+<form method="post" class="d-flex mb-4">
+    <input type="hidden" name="action" value="new">
+    <input type="text" name="title" class="form-control me-2" placeholder="Task Title">
+    <button class="btn btn-primary">Add</button>
+</form>
+
+
+<!-- LIST -->
+<ul class="list-group">
+<?php foreach ($taches as $t): ?>
+<li class="list-group-item d-flex justify-content-between align-items-center
+    <?= $t->done ? 'list-group-item-success' : 'list-group-item-warning' ?>">
+
+    <?= htmlspecialchars($t->title) ?>
+
+    <form method="post" class="d-flex gap-2">
+        <input type="hidden" name="id" value="<?= $t->id ?>">
+
+        <button name="action" value="toggle" class="btn btn-sm btn-primary">
+            <?= $t->done ? 'Undo' : 'Done' ?>
+        </button>
+
+        <button name="action" value="delete" class="btn btn-sm btn-danger">
+            X
+        </button>
+    </form>
+</li>
+<?php endforeach; ?>
+</ul>
+
+</div>
 </body>
 </html>
